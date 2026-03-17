@@ -6,7 +6,7 @@ import { AddressInfosContainer } from "@components/containers/AddressInfosContai
 export default function Home() {
   return (
     <main className="flex min-h-[calc(100vh-var(--header-height))] w-full flex-col">
-      <Section fluid classNames="relative bg-pattern flex-col justify-center items-center gap-y-4 px-10">
+      <Section fluid classNames="relative bg-pattern flex flex-col justify-center items-center gap-y-10 px-5 md:px-10">
         <HeroBanner />
         <AddressInfosContainer />
       </Section>
