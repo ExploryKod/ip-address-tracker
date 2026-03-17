@@ -18,6 +18,12 @@ type UseElementHeightCssVarOptions = {
 	 * Reduces update churn caused by sub-pixel differences.
 	 */
 	roundPx?: boolean
+	/**
+	 * Where to write the CSS variable.
+	 * - "element": write on the measured element (default, best for descendants)
+	 * - "root": write on document.documentElement (best for siblings/global usage)
+	 */
+	writeTo?: "element" | "root"
 }
 
 /**
@@ -28,6 +34,7 @@ export function useElementHeightCssVar({
 	cssVarName,
 	initialPx = 0,
 	roundPx = true,
+	writeTo = "element",
 }: UseElementHeightCssVarOptions) {
 	const elRef = useRef<HTMLElement | null>(null)
 	const lastWrittenRef = useRef<number | null>(null)
@@ -47,16 +54,19 @@ export function useElementHeightCssVar({
 
 	const writeHeight = useCallback(
 		(next: number) => {
-			const el = elRef.current
-			if (!el) return
+			const measuredEl = elRef.current
+			if (!measuredEl) return
 
 			const value = roundPx ? Math.round(next) : next
 			if (lastWrittenRef.current === value) return
 
+			const target =
+				writeTo === "root" ? document.documentElement : measuredEl
+
 			lastWrittenRef.current = value
-			el.style.setProperty(cssVarName, `${value}px`)
+			target.style.setProperty(cssVarName, `${value}px`)
 		},
-		[cssVarName, roundPx]
+		[cssVarName, roundPx, writeTo]
 	)
 
 	const ref = useCallback(
@@ -64,10 +74,12 @@ export function useElementHeightCssVar({
 			elRef.current = node
 			if (node) {
 				lastWrittenRef.current = null
-				node.style.setProperty(cssVarName, `${initialPx}px`)
+				const target =
+					writeTo === "root" ? document.documentElement : node
+				target.style.setProperty(cssVarName, `${initialPx}px`)
 			}
 		},
-		[cssVarName, initialPx]
+		[cssVarName, initialPx, writeTo]
 	)
 
 	useLayoutEffect(() => {

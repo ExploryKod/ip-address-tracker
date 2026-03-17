@@ -7,6 +7,8 @@ export const AddressInfosContainer = () => {
         cssVarName: "--address-infos-height",
         // Reasonable starting value to reduce layout shift before measuring.
         initialPx: 220,
+        // Map height calc needs this value from a sibling, so write globally.
+        writeTo: "root",
     })
 
     return (
