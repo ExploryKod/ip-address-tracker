@@ -15,11 +15,8 @@ export const Header: React.FC<{ className?: string }> = ({ className = "" }) => 
   return (
     <header ref={ref} className="relative pb-3 header-height w-full mx-auto bg-transparent z-10">
     <nav
-      className={`header-container flex flex-wrap items-center justify-between gap-4 w-full ${className}`.trim()}
+      className={`header-container flex flex-wrap items-center justify-end gap-4 w-full ${className}`.trim()}
     >
-      <div className="flex items-center gap-4">
-        <Image src="/logo.png" alt="Logo" width={30} height={30} />
-      </div>
       <div className="flex items-center gap-4">
         <Link href="/login" className="text-sm font-medium text-white hover:text-black focus:outline-none focus:ring-2 focus:ring-gray-500 rounded">
           Log in

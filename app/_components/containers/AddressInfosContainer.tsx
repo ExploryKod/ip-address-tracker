@@ -2,7 +2,11 @@
 import { InfosCard } from "@components/molecules/InfosCard";
 import { useElementHeightCssVar } from "@modules/app/react/hooks/useElementHeightCssVar"
 
-export const AddressInfosContainer = () => {
+interface AddressInfosContainerProps {
+    ipAddress: string | null;
+}
+
+export const AddressInfosContainer = ({ ipAddress }: AddressInfosContainerProps) => {
     const { ref } = useElementHeightCssVar({
         cssVarName: "--address-infos-height",
         // Reasonable starting value to reduce layout shift before measuring.
@@ -18,7 +22,7 @@ export const AddressInfosContainer = () => {
                 className="rounded-md -mb-[calc(var(--address-infos-height)/2)] 
         py-10 px-5 shadow-md max-w-5xl mx-auto w-full 
         flex flex-col md:flex-row justify-center items-center bg-white">
-                <InfosCard data={{ label: "IP Address", info: "192.168.1.1" }} />
+                <InfosCard data={{ label: "IP Address", info: ipAddress ?? "Unavailable" }} />
                 <InfosCard data={{ label: "Location", info: "New York" }} />
                 <InfosCard data={{ label: "Timezone", info: "UTC +05:00" }} />
                 <InfosCard sep={false} data={{ label: "ISP", info: "Netflix" }} />
