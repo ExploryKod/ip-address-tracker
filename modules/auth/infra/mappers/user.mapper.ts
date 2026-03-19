@@ -6,12 +6,16 @@ import {
   UserProfile,
   UserStatus,
 } from "@modules/auth/domain/entities/user.entity";
+import type {
+  PrismaUserRecord,
+  PrismaUserPersistence,
+} from "../repositories/prisma/prisma-user.types";
 
 // Adapter between Prisma persistence shape and the domain entity.
 // Keep this mapping logic localized so the rest of the code doesn't know
 // how persistence represents the user.
 export class UserMapper {
-  static toDomain(record: any): User {
+  static toDomain(record: PrismaUserRecord): User {
     const id = UserId.create(record.id);
     const email = Email.create(record.email);
     const profile = UserProfile.create({
@@ -30,7 +34,7 @@ export class UserMapper {
     });
   }
 
-  static toPersistence(user: User): any {
+  static toPersistence(user: User): PrismaUserPersistence {
     return {
       id: user.id.value,
       email: user.email.value,

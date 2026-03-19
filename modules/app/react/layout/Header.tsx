@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import CtaButton from "@components/atomes/CtaButton";
 
 export const Header: React.FC<{ className?: string }> = ({ className = "" }) => {
@@ -12,6 +13,9 @@ export const Header: React.FC<{ className?: string }> = ({ className = "" }) => 
         <Image src="/logo.png" alt="Logo" width={100} height={100} />
       </div>
       <div className="flex items-center gap-4">
+        <Link href="/register" className="text-sm font-medium text-gray-700 hover:text-gray-900 underline focus:outline-none focus:ring-2 focus:ring-gray-500 rounded">
+          Register
+        </Link>
         <CtaButton variant="secondary" >Try It Free</CtaButton>
       </div>
     </nav>

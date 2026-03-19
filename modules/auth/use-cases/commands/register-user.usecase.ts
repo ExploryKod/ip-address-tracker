@@ -1,21 +1,11 @@
 import type { UserRepository } from "@modules/auth/domain/repositories/user.repository";
 import type { EmailService } from "@modules/auth/domain/services/email.service";
-import { PasswordHasher } from "@modules/auth/domain/services/password-hasher.service";
+import type { PasswordHasher } from "@modules/auth/domain/services/password-hasher.service";
 import { Email, User, UserProfile } from "@modules/auth/domain/entities/user.entity";
 import { UserAlreadyExistsError } from "@modules/auth/domain/errors/errors.entity";
+import type { RegisterUserInput, RegisterUserOutput } from "./register-user.types";
 
-export interface RegisterUserInput {
-    email: string;
-    password: string;
-    name: string;
-  }
-  
-  export interface RegisterUserOutput {
-    userId: string;
-    success: boolean;
-  }
-  
-  export class RegisterUserUseCase {
+export class RegisterUserUseCase {
     constructor(
       private userRepo: UserRepository,
       private emailService: EmailService,

@@ -2,16 +2,7 @@ import type { UserRepository } from "@modules/auth/domain/repositories/user.repo
 import type { PasswordHasher } from "@modules/auth/domain/services/password-hasher.service";
 import { Email } from "@modules/auth/domain/entities/user.entity";
 import { InvalidCredentialsError } from "@modules/auth/domain/errors/errors.entity";
-
-export interface LoginUserInput {
-  email: string;
-  password: string;
-}
-
-export interface LoginUserOutput {
-  userId: string;
-  success: boolean;
-}
+import type { LoginUserInput, LoginUserOutput } from "./login-user.types";
 
 export class LoginUseCase {
   constructor(

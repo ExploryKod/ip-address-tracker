@@ -4,11 +4,12 @@ import {
   InvalidEmailError,
 } from "@modules/auth/domain/errors/errors.entity";
 import { prisma } from "@/lib/prisma";
+import { RegisterRequestSchema } from "../schemas";
 
 /**
- * Register API route (legacy path) - Infrastructure (Handler).
+ * Register API route - Infrastructure (Handler).
  * Route calls use-case directly; handles domain errors → HTTP status mapping.
- * Prefer POST /api/auth/register for new code.
+ * @see https://brandonjf.github.io/brandon-clean-architecture/nextjs-integration/
  */
 export async function POST(request: Request) {
   // Composition root: wire infra implementations and get use case
@@ -18,8 +19,17 @@ export async function POST(request: Request) {
   });
 
   try {
-    // Controller: parse HTTP request body into raw input
-    const body = await request.json();
+    // Controller: parse HTTP request body (unknown until validated - Zero any)
+    const rawBody: unknown = await request.json();
+    // Controller: validate at boundary - safeParse returns result, no throw
+    const parsed = RegisterRequestSchema.safeParse(rawBody);
+    if (!parsed.success) {
+      const messages = parsed.error.issues
+        .map((issue: { message: string }) => issue.message)
+        .join(", ");
+      return Response.json({ error: messages }, { status: 400 });
+    }
+    const body = parsed.data;
     // Controller: delegate to use case (application layer)
     const result = await auth.registerUser.execute(body);
     // Presenter: map use case output → HTTP response (200, JSON body)

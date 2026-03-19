@@ -29,6 +29,7 @@ export default function RootLayout({
     >
       <body className={rubik.className} suppressHydrationWarning>
         <ThemeProvider attribute="data-theme" defaultTheme="light" enableSystem={false}>
+            <Header />
             {children}
         </ThemeProvider>
       </body>
