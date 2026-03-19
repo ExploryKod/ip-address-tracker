@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState, type SyntheticEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -15,7 +15,7 @@ export function RegisterForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("loading");
     setMessage("");
@@ -37,6 +37,7 @@ export function RegisterForm() {
 
       setStatus("success");
       setMessage(data.message ?? "Account created successfully");
+      // After a successful registration, take the user to the login page.
       router.replace("/login");
     } catch {
       setStatus("error");
