@@ -27,7 +27,7 @@ export default function RootLayout({
       className={`${rubik.variable} overflow-x-hidden antialiased`}
       suppressHydrationWarning
     >
-      <body className={rubik.className} suppressHydrationWarning>
+      <body className={`${rubik.className}`} suppressHydrationWarning>
         <ThemeProvider attribute="data-theme" defaultTheme="light" enableSystem={false}>
             {children}
         </ThemeProvider>
