@@ -7,9 +7,8 @@ import { useRouter } from "next/navigation";
 const inputBase =
   "w-full bg-white placeholder:text-gray-500 text-gray-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow";
 
-export function RegisterForm() {
+export function LoginForm() {
   const router = useRouter();
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -21,23 +20,23 @@ export function RegisterForm() {
     setMessage("");
 
     try {
-      const res = await fetch("/api/auth/register", {
+      const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
         setStatus("error");
-        setMessage(data.error ?? "Registration failed");
+        setMessage(data.error ?? "Login failed");
         return;
       }
 
       setStatus("success");
-      setMessage(data.message ?? "Account created successfully");
-      router.replace("/login");
+      setMessage(data.message ?? "Logged in successfully");
+      router.replace("/");
     } catch {
       setStatus("error");
       setMessage("Network error. Please try again.");
@@ -51,27 +50,11 @@ export function RegisterForm() {
       noValidate
     >
       <div>
-        <label htmlFor="register-name" className="block text-sm font-medium text-white mb-1">
-          Name
-        </label>
-        <input
-          id="register-name"
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className={inputBase}
-          placeholder="Your name"
-          required
-          autoComplete="name"
-          disabled={status === "loading"}
-        />
-      </div>
-      <div>
-        <label htmlFor="register-email" className="block text-sm font-medium text-white mb-1">
+        <label htmlFor="login-email" className="block text-sm font-medium text-white mb-1">
           Email
         </label>
         <input
-          id="register-email"
+          id="login-email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -83,19 +66,18 @@ export function RegisterForm() {
         />
       </div>
       <div>
-        <label htmlFor="register-password" className="block text-sm font-medium text-white mb-1">
+        <label htmlFor="login-password" className="block text-sm font-medium text-white mb-1">
           Password
         </label>
         <input
-          id="register-password"
+          id="login-password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className={inputBase}
           placeholder="••••••••"
           required
-          minLength={8}
-          autoComplete="new-password"
+          autoComplete="current-password"
           disabled={status === "loading"}
         />
       </div>
@@ -114,13 +96,13 @@ export function RegisterForm() {
         disabled={status === "loading"}
         className="btn-common-styles btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {status === "loading" ? "Creating account…" : "Create account"}
+        {status === "loading" ? "Signing in…" : "Sign in"}
       </button>
 
       <p className="text-sm text-white/80">
-        Already have an account?{" "}
-        <Link href="/login" className="underline hover:text-white focus:outline-none focus:ring-2 focus:ring-white rounded">
-          Log in
+        Don&apos;t have an account?{" "}
+        <Link href="/register" className="underline hover:text-white focus:outline-none focus:ring-2 focus:ring-white rounded">
+          Register
         </Link>
       </p>
     </form>
