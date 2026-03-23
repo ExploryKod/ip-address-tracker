@@ -1,4 +1,5 @@
 import { createLocationModule } from "@modules/location/location.module";
+import { GetLocationCoordinatesUseCase } from "@modules/location/use-cases/queries/get-location-coordinates.usecase";
 
 export interface HomeViewModel {
   ipAddress: string | null;
@@ -6,6 +7,7 @@ export interface HomeViewModel {
   locationTimezone: string;
   isp: string;
   hasIpifyCredits: boolean;
+  coordinates: { lat: number; lng: number } | null;
 }
 
 /**
@@ -14,6 +16,7 @@ export interface HomeViewModel {
  */
 export async function presentHomeViewModel(): Promise<HomeViewModel> {
   const ipifyApiKey = process.env.IPIFY_API_KEY;
+  const getCoordinatesUseCase = new GetLocationCoordinatesUseCase();
 
   const locationModule = createLocationModule({
     ipifyApiKey,
@@ -27,6 +30,7 @@ export async function presentHomeViewModel(): Promise<HomeViewModel> {
   let locationCity = "Unavailable";
   let locationTimezone = "Unavailable";
   let isp = "Unavailable";
+  let coordinates: { lat: number; lng: number } | null = null;
   const hasIpifyCredits =
     accountBalanceResult.success &&
     typeof accountBalanceResult.credits === "number" &&
@@ -43,6 +47,9 @@ export async function presentHomeViewModel(): Promise<HomeViewModel> {
     const timezone =
       locResult.location?.location?.timezone ??
       (locResult.location?.location as { timezone?: string }).timezone;
+    const coordinatesResult = await getCoordinatesUseCase.execute({
+      location: locResult.location,
+    });
 
     if (locResult.success && typeof city === "string" && city.length > 0) {
       locationCity = city;
@@ -55,6 +62,11 @@ export async function presentHomeViewModel(): Promise<HomeViewModel> {
     if (locResult.success && typeof locResult.location?.isp === "string" && locResult.location?.isp.length > 0) {
       isp = locResult.location.isp;
     }
+
+    if (coordinatesResult.success) {
+      coordinates = coordinatesResult.coordinates;
+    }
+
   }
 
   return {
@@ -63,6 +75,7 @@ export async function presentHomeViewModel(): Promise<HomeViewModel> {
     locationTimezone,
     isp,
     hasIpifyCredits,
+    coordinates,
   };
 }
 

@@ -5,10 +5,14 @@ const Map = dynamic(() => import("@components/molecules/Map").then((mod) => mod.
     ssr: false,
 })
 
-export const MapContainer = () => {
+type MapContainerProps = {
+    coordinates: { lat: number; lng: number } | null;
+}
+
+export const MapContainer = ({ coordinates }: MapContainerProps) => {
     return (
         <div className="w-full h-screen md:h-[calc(100vh-var(--banner-height)+(var(--address-infos-height)/2))]">
-            <Map />
+            <Map coordinates={coordinates} />
         </div>
     )
 }

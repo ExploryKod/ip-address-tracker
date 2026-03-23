@@ -26,7 +26,7 @@ export default async function Home() {
         fluid
         classNames="flex-1 min-h-[300px] min-w-[300px] flex justify-center items-center"
       >
-        <MapContainer />
+        <MapContainer coordinates={vm.coordinates} />
       </Section>
     </main>
     </>
