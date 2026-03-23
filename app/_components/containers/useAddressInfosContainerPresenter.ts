@@ -3,6 +3,8 @@
 interface UseAddressInfosContainerPresenterInput {
   ipAddress: string | null;
   locationCity: string;
+  locationTimezone: string;
+  isp: string;
 }
 
 export interface AddressInfosContainerViewModel {
@@ -22,8 +24,8 @@ export function useAddressInfosContainerPresenter(
   return {
     ipInfo: input.ipAddress ?? "Unavailable",
     locationInfo: input.locationCity ?? "Unavailable",
-    timezoneInfo: "UTC +05:00",
-    ispInfo: "Netflix",
+    timezoneInfo: input.locationTimezone ?? "Unavailable",
+    ispInfo: input.isp ?? "Unavailable",
   };
 }
 

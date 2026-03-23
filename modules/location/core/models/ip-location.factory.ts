@@ -6,6 +6,7 @@ export class IpLocationFactory {
         return {
             ip: '',
             location: {
+                city: '',
                 country: '',
                 region: '',
                 timezone: '',
@@ -13,6 +14,22 @@ export class IpLocationFactory {
                 lng: 0,
                 postalCode: '',
             },
+            ...data
+        }
+    }
+
+    static createLocationCity(data?:Partial<IPLocationEntity.IPLocationCity>):IPLocationEntity.IPLocationCity {
+        return {
+            ip: '',
+            city: '',
+            ...data
+        }
+    }
+
+    static createTimeZone(data?:Partial<IPLocationEntity.IPTimeZone>):IPLocationEntity.IPTimeZone {
+        return {
+            ip: '',
+            timezone: '',
             ...data
         }
     }
