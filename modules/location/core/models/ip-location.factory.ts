@@ -33,4 +33,12 @@ export class IpLocationFactory {
             ...data
         }
     }
+
+    static createISPLocation(data?:Partial<IPLocationEntity.IPISPLocation>):IPLocationEntity.IPISPLocation {
+        return {
+            ip: '',
+            isp: '',
+            ...data
+        }
+    }
 }

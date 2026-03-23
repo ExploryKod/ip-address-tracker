@@ -35,5 +35,14 @@ export namespace IPLocationEntity {
     timezone: Location["timezone"]
   }
 
+  export type IPISPLocation = {
+    ip: IPAddress
+    isp: string
+  }
+
+  export type IPifyAccountBalance = {
+    credits: number
+  }
+
 }
 

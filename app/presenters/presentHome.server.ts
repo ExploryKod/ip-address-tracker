@@ -1,10 +1,13 @@
 import { createLocationModule } from "@modules/location/location.module";
+import { GetLocationCoordinatesUseCase } from "@modules/location/use-cases/queries/get-location-coordinates.usecase";
 
 export interface HomeViewModel {
   ipAddress: string | null;
   locationCity: string;
   locationTimezone: string;
   isp: string;
+  hasIpifyCredits: boolean;
+  coordinates: { lat: number; lng: number } | null;
 }
 
 /**
@@ -13,16 +16,25 @@ export interface HomeViewModel {
  */
 export async function presentHomeViewModel(): Promise<HomeViewModel> {
   const ipifyApiKey = process.env.IPIFY_API_KEY;
+  const getCoordinatesUseCase = new GetLocationCoordinatesUseCase();
 
   const locationModule = createLocationModule({
     ipifyApiKey,
   });
 
   const ipResult = await locationModule.getUserIP.execute();
+  const accountBalanceResult = locationModule.getIPifyAccountBalance
+    ? await locationModule.getIPifyAccountBalance.execute()
+    : { success: false, credits: null };
 
   let locationCity = "Unavailable";
   let locationTimezone = "Unavailable";
   let isp = "Unavailable";
+  let coordinates: { lat: number; lng: number } | null = null;
+  const hasIpifyCredits =
+    accountBalanceResult.success &&
+    typeof accountBalanceResult.credits === "number" &&
+    accountBalanceResult.credits > 0;
   if (ipResult.ip && locationModule.findLocationByIP) {
     const locResult = await locationModule.findLocationByIP.execute({
       ip: ipResult.ip,
@@ -35,6 +47,9 @@ export async function presentHomeViewModel(): Promise<HomeViewModel> {
     const timezone =
       locResult.location?.location?.timezone ??
       (locResult.location?.location as { timezone?: string }).timezone;
+    const coordinatesResult = await getCoordinatesUseCase.execute({
+      location: locResult.location,
+    });
 
     if (locResult.success && typeof city === "string" && city.length > 0) {
       locationCity = city;
@@ -47,6 +62,11 @@ export async function presentHomeViewModel(): Promise<HomeViewModel> {
     if (locResult.success && typeof locResult.location?.isp === "string" && locResult.location?.isp.length > 0) {
       isp = locResult.location.isp;
     }
+
+    if (coordinatesResult.success) {
+      coordinates = coordinatesResult.coordinates;
+    }
+
   }
 
   return {
@@ -54,6 +74,8 @@ export async function presentHomeViewModel(): Promise<HomeViewModel> {
     locationCity,
     locationTimezone,
     isp,
+    hasIpifyCredits,
+    coordinates,
   };
 }
 
