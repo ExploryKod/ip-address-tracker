@@ -1,9 +1,8 @@
 "use client";
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useElementHeightCssVar } from "@modules/app/react/hooks/useElementHeightCssVar";
-import CtaButton from "@components/atomes/CtaButton";
+
 
 export const Header: React.FC<{ className?: string }> = ({ className = "" }) => {
   const { ref } = useElementHeightCssVar({
