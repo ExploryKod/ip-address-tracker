@@ -10,6 +10,8 @@ export default {
     rootDir: ".",
     moduleNameMapper: {
       "^@flagapp/(.*)$": "<rootDir>/$1",
+      "^@modules/(.*)$": "<rootDir>/modules/$1",
+      "^@/(.*)$": "<rootDir>/$1",
     },
     coveragePathIgnorePatterns: [
       "/node_modules/",

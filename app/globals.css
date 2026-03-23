@@ -7,7 +7,7 @@
   /* Layout (design sizes; test 320px to large screens for WCAG) */
   --width-mobile: 375px;
   --width-desktop: 1440px;
-  --header-height: 0px;
+  --header-height: 50px;
   --banner-height: 200px;
 
   /* Colors from style guide */
@@ -112,10 +112,12 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+
 }
 @media (min-width: 640px) {
   .bg-pattern {
     background-image: url(/patterns/pattern-bg-desktop.png);
+    background-size: cover;
   }
 }
 

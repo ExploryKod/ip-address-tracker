@@ -23,7 +23,7 @@ export function BannerSection({ children }: BannerSectionProps) {
 		<Section
 			ref={ref}
 			fluid
-			classNames="relative bg-pattern flex flex-col justify-center items-center gap-y-10 px-5 md:px-10"
+			classNames="pt-[var(--header-height)]  -mt-[var(--header-height)] relative bg-pattern flex flex-col justify-center items-center gap-y-10 px-5 md:px-10"
 		>
 			{children}
 		</Section>

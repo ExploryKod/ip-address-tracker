@@ -7,7 +7,7 @@ const Map = dynamic(() => import("@components/molecules/Map").then((mod) => mod.
 
 export const MapContainer = () => {
     return (
-        <div className="w-full h-[calc(100vh-var(--header-height)-var(--banner-height)+(var(--address-infos-height)/2))]">
+        <div className="w-full h-screen md:h-[calc(100vh-var(--banner-height)+(var(--address-infos-height)/2))]">
             <Map />
         </div>
     )

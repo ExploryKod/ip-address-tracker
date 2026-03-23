@@ -3,13 +3,20 @@ import { MapContainer } from "@components/containers/MapContainer";
 import { HeroBanner } from "@components/molecules/HeroBanner";
 import { AddressInfosContainer } from "@components/containers/AddressInfosContainer";
 import { BannerSection } from "@components/sections/BannerSection";
+import { Header } from "@modules/app/react/layout/Header";
+import { createLocationModule } from "@modules/location/location.module";
 
-export default function Home() {
+export default async function Home() {
+  const location = createLocationModule({});
+  const ipResult = await location.getUserIP.execute();
+
   return (
-    <main className="flex min-h-[calc(100vh-var(--header-height))] w-full flex-col">
+    <>
+    <Header />
+    <main className="flex min-h-[calc(100vh-var(--header-height)-var(--banner-height))] w-full flex-col">
       <BannerSection>
         <HeroBanner />
-        <AddressInfosContainer />
+        <AddressInfosContainer ipAddress={ipResult.ip} />
       </BannerSection>
       <Section
         fluid
@@ -18,5 +25,6 @@ export default function Home() {
         <MapContainer />
       </Section>
     </main>
+    </>
   );
 }
