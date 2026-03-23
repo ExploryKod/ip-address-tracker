@@ -23,7 +23,8 @@
       "@/*": ["./*"],
       "@modules/*": ["./modules/*"],
       "@store/*": ["./modules/store/*"],
-      "@components/*": ["./app/_components/*"]
+      "@components/*": ["./app/_components/*"],
+      "@presenters/*": ["./app/presenters/*"]
     }
   },
   "include": [
