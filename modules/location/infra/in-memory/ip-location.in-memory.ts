@@ -8,6 +8,7 @@ export class IPLocationApi implements IIPLocationAPI {
     ipLocationMap.set("8.8.8.8", {
       ip: "8.8.8.8",
       location: {
+        city: "Mountain View",
         country: "United States",
         region: "California",
         timezone: "America/Los_Angeles",
