@@ -14,7 +14,7 @@ export default async function Home() {
     <Header />
     <main className="flex min-h-[calc(100vh-var(--header-height)-var(--banner-height))] w-full flex-col">
       <BannerSection>
-        <HeroBanner />
+        <HeroBanner hasIpifyCredits={vm.hasIpifyCredits} />
         <AddressInfosContainer
           ipAddress={vm.ipAddress}
           locationCity={vm.locationCity}

@@ -5,6 +5,7 @@ export interface HomeViewModel {
   locationCity: string;
   locationTimezone: string;
   isp: string;
+  hasIpifyCredits: boolean;
 }
 
 /**
@@ -19,10 +20,17 @@ export async function presentHomeViewModel(): Promise<HomeViewModel> {
   });
 
   const ipResult = await locationModule.getUserIP.execute();
+  const accountBalanceResult = locationModule.getIPifyAccountBalance
+    ? await locationModule.getIPifyAccountBalance.execute()
+    : { success: false, credits: null };
 
   let locationCity = "Unavailable";
   let locationTimezone = "Unavailable";
   let isp = "Unavailable";
+  const hasIpifyCredits =
+    accountBalanceResult.success &&
+    typeof accountBalanceResult.credits === "number" &&
+    accountBalanceResult.credits > 0;
   if (ipResult.ip && locationModule.findLocationByIP) {
     const locResult = await locationModule.findLocationByIP.execute({
       ip: ipResult.ip,
@@ -54,6 +62,7 @@ export async function presentHomeViewModel(): Promise<HomeViewModel> {
     locationCity,
     locationTimezone,
     isp,
+    hasIpifyCredits,
   };
 }
 
