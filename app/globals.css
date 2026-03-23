@@ -46,7 +46,7 @@
 /* Colors */
 --color-gray-950: var(--gray-950);
 --color-gray-400: var(--gray-400);
---button-hover-color: var(--gray-950);
+--button-hover-color: var(--gray-400);
 /* Body font size → text-body */
 --text-body: var(--font-size-body);
 

@@ -2,14 +2,14 @@ import { TrackerInput } from "@components/atomes/TrackerInput";
 import { IPifyCreditsStatus } from "@components/molecules/IPifyCreditsStatus";
 
 type HeroBannerProps = {
-    hasIpifyCredits: boolean;
+    ipifyCreditsStatus: "ok" | "warning" | "stopped" | "unknown";
     onSearchIp: (ip: string) => Promise<void>;
     isSearching: boolean;
     searchError: string | null;
 };
 
 export const HeroBanner = ({
-    hasIpifyCredits,
+    ipifyCreditsStatus,
     onSearchIp,
     isSearching,
     searchError,
@@ -24,7 +24,7 @@ export const HeroBanner = ({
                 isSearching={isSearching}
                 searchError={searchError}
             />
-            <IPifyCreditsStatus hasCredits={hasIpifyCredits} />
+            <IPifyCreditsStatus status={ipifyCreditsStatus} />
         </article>
     )
 }

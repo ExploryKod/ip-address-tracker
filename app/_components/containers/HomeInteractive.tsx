@@ -32,6 +32,13 @@ export function HomeInteractive({ initialViewModel }: HomeInteractiveProps) {
   const [searchError, setSearchError] = useState<string | null>(null);
 
   async function handleSearchIp(ip: string) {
+    if (vm.ipifyCreditsStatus === "stopped") {
+      setSearchError(
+        "Sorry, Ipify api free credits are too low so we stopped the service"
+      );
+      return;
+    }
+
     setIsSearching(true);
     setSearchError(null);
 
@@ -89,7 +96,7 @@ export function HomeInteractive({ initialViewModel }: HomeInteractiveProps) {
     <>
       <BannerSection>
         <HeroBanner
-          hasIpifyCredits={vm.hasIpifyCredits}
+          ipifyCreditsStatus={vm.ipifyCreditsStatus}
           onSearchIp={handleSearchIp}
           isSearching={isSearching}
           searchError={searchError}

@@ -7,6 +7,9 @@ import type { HomeViewModel } from "./home-view-model";
  * Must stay server-only (no React hooks).
  */
 export async function presentHomeViewModel(): Promise<HomeViewModel> {
+  const WARNING_THRESHOLD = 500;
+  const STOP_THRESHOLD = 200;
+
   const ipifyApiKey = process.env.IPIFY_API_KEY;
   const getCoordinatesUseCase = new GetLocationCoordinatesUseCase();
 
@@ -23,11 +26,23 @@ export async function presentHomeViewModel(): Promise<HomeViewModel> {
   let locationTimezone = "Unavailable";
   let isp = "Unavailable";
   let coordinates: { lat: number; lng: number } | null = null;
-  const hasIpifyCredits =
+  let ipifyCreditsStatus: HomeViewModel["ipifyCreditsStatus"] = "unknown";
+  if (
     accountBalanceResult.success &&
-    typeof accountBalanceResult.credits === "number" &&
-    accountBalanceResult.credits > 0;
-  if (ipResult.ip && locationModule.findLocationByIP) {
+    typeof accountBalanceResult.credits === "number"
+  ) {
+    if (accountBalanceResult.credits <= STOP_THRESHOLD) {
+      ipifyCreditsStatus = "stopped";
+    } else if (accountBalanceResult.credits <= WARNING_THRESHOLD) {
+      ipifyCreditsStatus = "warning";
+    } else {
+      ipifyCreditsStatus = "ok";
+    }
+  }
+
+  // Keep service live only when enough credits remain.
+  const canCallIpifyGeo = ipifyCreditsStatus !== "stopped";
+  if (canCallIpifyGeo && ipResult.ip && locationModule.findLocationByIP) {
     const locResult = await locationModule.findLocationByIP.execute({
       ip: ipResult.ip,
     });
@@ -66,7 +81,7 @@ export async function presentHomeViewModel(): Promise<HomeViewModel> {
     locationCity,
     locationTimezone,
     isp,
-    hasIpifyCredits,
+    ipifyCreditsStatus,
     coordinates,
   };
 }

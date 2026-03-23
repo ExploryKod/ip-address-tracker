@@ -3,7 +3,7 @@ export interface HomeViewModel {
   locationCity: string;
   locationTimezone: string;
   isp: string;
-  hasIpifyCredits: boolean;
+  ipifyCreditsStatus: "ok" | "warning" | "stopped" | "unknown";
   coordinates: { lat: number; lng: number } | null;
 }
 
