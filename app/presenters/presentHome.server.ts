@@ -3,6 +3,8 @@ import { createLocationModule } from "@modules/location/location.module";
 export interface HomeViewModel {
   ipAddress: string | null;
   locationCity: string;
+  locationTimezone: string;
+  isp: string;
 }
 
 /**
@@ -19,6 +21,8 @@ export async function presentHomeViewModel(): Promise<HomeViewModel> {
   const ipResult = await locationModule.getUserIP.execute();
 
   let locationCity = "Unavailable";
+  let locationTimezone = "Unavailable";
+  let isp = "Unavailable";
   if (ipResult.ip && locationModule.findLocationByIP) {
     const locResult = await locationModule.findLocationByIP.execute({
       ip: ipResult.ip,
@@ -28,14 +32,28 @@ export async function presentHomeViewModel(): Promise<HomeViewModel> {
       city?: string;
     }).city;
 
+    const timezone =
+      locResult.location?.location?.timezone ??
+      (locResult.location?.location as { timezone?: string }).timezone;
+
     if (locResult.success && typeof city === "string" && city.length > 0) {
       locationCity = city;
+    }
+
+    if (locResult.success && typeof timezone === "string" && timezone.length > 0) {
+      locationTimezone = timezone;
+    }
+
+    if (locResult.success && typeof locResult.location?.isp === "string" && locResult.location?.isp.length > 0) {
+      isp = locResult.location.isp;
     }
   }
 
   return {
     ipAddress: ipResult.ip,
     locationCity,
+    locationTimezone,
+    isp,
   };
 }
 
