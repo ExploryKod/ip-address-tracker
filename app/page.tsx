@@ -18,6 +18,8 @@ export default async function Home() {
         <AddressInfosContainer
           ipAddress={vm.ipAddress}
           locationCity={vm.locationCity}
+          locationTimezone={vm.locationTimezone}
+          isp={vm.isp}
         />
       </BannerSection>
       <Section

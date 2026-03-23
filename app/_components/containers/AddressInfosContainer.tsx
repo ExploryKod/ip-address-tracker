@@ -6,10 +6,17 @@ import { useAddressInfosContainerPresenter } from "./useAddressInfosContainerPre
 interface AddressInfosContainerProps {
     ipAddress: string | null;
     locationCity: string;
+    locationTimezone: string;
+    isp: string;
 }
 
-export const AddressInfosContainer = ({ ipAddress, locationCity }: AddressInfosContainerProps) => {
-    const vm = useAddressInfosContainerPresenter({ ipAddress, locationCity });
+export const AddressInfosContainer = ({ ipAddress, locationCity, locationTimezone, isp }: AddressInfosContainerProps) => {
+    const vm = useAddressInfosContainerPresenter({
+        ipAddress,
+        locationCity,
+        locationTimezone,
+        isp,
+    });
     const { ref } = useElementHeightCssVar({
         cssVarName: "--address-infos-height",
         // Reasonable starting value to reduce layout shift before measuring.

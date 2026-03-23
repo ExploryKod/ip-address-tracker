@@ -24,6 +24,7 @@ describe("FindLocationByIPUseCase", () => {
   const location: IPLocationEntity.IPLocation = {
     ip,
     location: {
+      city: 'Vierzon',
       country: "FR",
       region: "Centre-Val de Loire",
       timezone: "+01:00",
