@@ -17,8 +17,11 @@ export const Map = () => {
       scrollWheelZoom: false,
     })
 
-    L.tileLayer("https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}{r}.png",
-      {attribution: "©Stamen Design, ©OpenStreetMap contributors",}).addTo(map)
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution:
+        '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(map);
 
     mapRef.current = map
 
