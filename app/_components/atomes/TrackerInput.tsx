@@ -52,12 +52,16 @@ export const TrackerInput = ({
             placeholder="Search for any IP address"
           />
 
-          <button className="absolute right-0 top-0 bottom-0 rounded-r-md p-1.5 border border-transparent text-center text-sm 
-          text-white bg-black transition-all shadow-sm hover:shadow focus:bg-slate-700 focus:shadow-none 
-          active:bg-slate-700 hover:bg-gray-300 active:shadow-none 
-          disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" 
-          type="submit"
-          disabled={isSearching}>
+          <button
+            aria-label="Search IP address"
+            aria-busy={isSearching}
+            className="absolute right-0 top-0 bottom-0 rounded-r-md p-1.5 border border-transparent text-center text-sm 
+          text-white bg-black transition-all shadow-sm hover:shadow focus:bg-[var(--button-hover-color)] focus:shadow-none 
+          active:bg-[var(--button-hover-color)] hover:bg-[var(--button-hover-color)] active:shadow-none 
+          disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+            type="submit"
+            disabled={isSearching}
+          >
 
             <ArrowRight className="w-4 h-full text-white cursor-pointer" />
 

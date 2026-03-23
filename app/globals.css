@@ -43,6 +43,10 @@
 --text-heading-2: var(--heading-2);
 --text-paragraph: var(--paragraph);
 
+/* Colors */
+--color-gray-950: var(--gray-950);
+--color-gray-400: var(--gray-400);
+--button-hover-color: var(--gray-950);
 /* Body font size → text-body */
 --text-body: var(--font-size-body);
 
